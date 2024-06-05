@@ -181,7 +181,28 @@ public class GameSystem {
             }
         }
         
-        //Falta implementar o draw
+        //draw
+        boolean draw = false;
+        for(int i=0; i<v.length; i++){
+            for(int j=0; j<v.length; j++){
+                //se existe "-" então não há empate
+                if(v[i][j] == "-".charAt(0)){
+                    draw = false;
+                    break;
+                }
+                if(i==v.length-1 && j==v.length-1){
+                    /*Se c == false, alguém ja ganhou*/
+                    if(c != false){
+                        /*Se o for não é "quebrado" então tds espaços foram preenchidos
+                        e, então, aconteceu o empate.*/
+                        draw = true;
+                        System.out.println("# Deu velha!!!");
+                        c = !draw;
+                    }
+                }
+            }
+        }
+        
         //Falta implementar a não sobreposição
         
         return c;

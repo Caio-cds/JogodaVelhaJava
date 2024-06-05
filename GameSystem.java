@@ -1,6 +1,8 @@
 import java.util.Scanner;
 
 public class GameSystem {
+    Scanner input = new Scanner(System.in);
+
     public GameSystem(){
         inicioJogo();
     }
@@ -18,8 +20,8 @@ public class GameSystem {
     
     public char[][] inicioPadrao(){
         char [][] gameStart = new char[3][3];
-        //Inicio do jogo
-        System.out.println("Início do jogo:");
+        //Inicio do jogo zerado (espacos vazios)
+        System.out.println("Inicio do jogo:");
         for (int i=0; i<3; i++){
             for (int j=0; j<3; j++){
                 gameStart[i][j] = "-".charAt(0);
@@ -27,17 +29,37 @@ public class GameSystem {
         }
         return gameStart;
     }
+
+    public void marcaTabela(char[][] v, int linha, int coluna, char playerChar){
+        //!sobreposição
+        int valid = 0;
+        do{
+            if(v[linha][coluna] == "-".charAt(0)){
+                valid = 1;
+            }
+            else{
+                System.out.println("Espaco ocupado! Insira uma coordenada valida!");
+                
+                System.out.print("Linha: ");
+                linha = input.nextInt() - 1;
+                
+                System.out.print("coluna: ");
+                coluna = input.nextInt() - 1;
+            }
+        } while(valid != 1);
+
+        v[linha][coluna] = playerChar;
+    }
     
     public void inicioJogo(){
         char[][] v = inicioPadrao();
         exibeTabela(v);
-        Scanner input = new Scanner(System.in);
         boolean continuar = true;
         char x = "X".charAt(0);
         char o = "O".charAt(0);
         
         while(continuar){    
-            System.out.println("Jogador 1, informe a posição do X: ");
+            System.out.println("Jogador 1, informe a posicao do X: ");
             
             System.out.print("linha: ");
             int linhaP1 = input.nextInt() - 1;
@@ -45,7 +67,7 @@ public class GameSystem {
             System.out.print("coluna: ");
             int colunaP1 = input.nextInt() - 1;
             
-            v[linhaP1][colunaP1] = x;
+            marcaTabela(v, linhaP1, colunaP1, x);
             exibeTabela(v);
             
             continuar = resultado(v, continuar);
@@ -53,7 +75,7 @@ public class GameSystem {
                 break;
             }
             
-            System.out.println("Jogador 2, informe a posição do O: ");
+            System.out.println("Jogador 2, informe a posicao do O: ");
             
             System.out.print("linha: ");
             int linhaP2 = input.nextInt() - 1;
@@ -61,14 +83,14 @@ public class GameSystem {
             System.out.print("coluna: ");
             int colunaP2 = input.nextInt() - 1;
             
-            v[linhaP2][colunaP2] = o;
+            marcaTabela(v, linhaP2, colunaP2, o);
             exibeTabela(v);
             
             continuar = resultado(v, continuar);
         }
         //Continue?
         System.out.println("~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=");
-        System.out.println("Deseja continuar? (0 = não/1 = sim)");
+        System.out.println("Deseja continuar? (0 = nao/1 = sim)");
         int answer = input.nextInt();
         System.out.println("~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=");
 
@@ -202,8 +224,6 @@ public class GameSystem {
                 }
             }
         }
-        
-        //Falta implementar a não sobreposição
         
         return c;
     }
